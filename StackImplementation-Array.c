@@ -1,13 +1,10 @@
 #include <stdio.h>
-#define SIZE 10
-
-int stack[SIZE];
 
 int tos = -1;
 
 /* 
-todo: let user set stack size
-todo: fix error: entering char in choice causes infinite loop
+todo: let user set stack size [done]
+todo: fix error: entering char in choice causes infinite loop []
 */
 
 int stackEmpty() {
@@ -17,22 +14,22 @@ int stackEmpty() {
     return 0;
 }
 
-int stackFull() {
-    if (tos == SIZE-1)
+int stackFull(int size) {
+    if (tos == size-1)
         return 1;
 
     return 0;
 }
 
-void push(int data) {
-    if (stackFull())
+void push(int stack[], int size, int data) {
+    if (stackFull(size))
         printf("Stack is full.\n\n");
 
     else
         stack[++tos] = data;
 }
 
-void pop() {
+void pop(int stack[]) {
     if (stackEmpty())
         printf("Stack is empty.\n\n");
 
@@ -40,7 +37,7 @@ void pop() {
         tos--;
 }
 
-void traverse() {
+void traverse(int stack[]) {
     if (stackEmpty()) {
         printf("Stack is empty.\n\n");
         return;
@@ -56,7 +53,7 @@ void traverse() {
     printf("\n\n");
 }
 
-int menu() {
+int menu(int stack[], int size) {
     int choice;
     int data;
     
@@ -71,15 +68,15 @@ int menu() {
             scanf("%d", &data);
             printf("\n");
             
-            push(data);
+            push(stack, size, data);
             break;
             
         case 2:
-            pop();
+            pop(stack);
             break;
         
         case 3:
-            traverse();
+            traverse(stack);
             break;
         
         case 4:
@@ -97,6 +94,8 @@ int main() {
     printf("Stack Size: ");
     int size;
     scanf("%d", &size);
+
+    int stack[size];
     
-    while (menu());
+    while (menu(stack, size));
 }
