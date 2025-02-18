@@ -1,0 +1,102 @@
+#include <stdio.h>
+#define SIZE 10
+
+int stack[SIZE];
+
+int tos = -1;
+
+/* 
+todo: let user set stack size
+todo: fix error: entering char in choice causes infinite loop
+*/
+
+int stackEmpty() {
+    if (tos == -1)
+        return 1;
+
+    return 0;
+}
+
+int stackFull() {
+    if (tos == SIZE-1)
+        return 1;
+
+    return 0;
+}
+
+void push(int data) {
+    if (stackFull())
+        printf("Stack is full.\n\n");
+
+    else
+        stack[++tos] = data;
+}
+
+void pop() {
+    if (stackEmpty())
+        printf("Stack is empty.\n\n");
+
+    else
+        tos--;
+}
+
+void traverse() {
+    if (stackEmpty()) {
+        printf("Stack is empty.\n\n");
+        return;
+    }
+
+    for (int i = 0; i <= tos; i++) {
+        printf("%d", stack[i]);
+
+        if (i != tos)
+            printf(", ");
+    }
+
+    printf("\n\n");
+}
+
+int menu() {
+    int choice;
+    int data;
+    
+    printf("MENU\n----\n1) Push\n2) Pop\n3) Traverse\n4) Exit\n>>> ");
+    scanf("%d", &choice);
+    printf("\n");
+    
+    switch(choice) {
+        case 1:
+
+            printf("Enter data: ");
+            scanf("%d", &data);
+            printf("\n");
+            
+            push(data);
+            break;
+            
+        case 2:
+            pop();
+            break;
+        
+        case 3:
+            traverse();
+            break;
+        
+        case 4:
+            return 0;
+            break;
+        
+        default:
+            printf("Invalid choice.\n\n");
+    }
+
+    return 1;
+}
+
+int main() {
+    printf("Stack Size: ");
+    int size;
+    scanf("%d", &size);
+    
+    while (menu());
+}
