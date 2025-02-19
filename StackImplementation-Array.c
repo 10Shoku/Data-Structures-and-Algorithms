@@ -2,11 +2,6 @@
 
 int tos = -1;
 
-/* 
-todo: let user set stack size [done]
-todo: fix error: entering char in choice causes infinite loop []
-*/
-
 int stackEmpty() {
     if (tos == -1)
         return 1;
@@ -66,16 +61,17 @@ int menu(int stack[], int size) {
     switch(choice) {
         case 1:
             printf("Enter data: ");
-
-            if (scanf("%d", &data) != 1)    // check if input is an integer
-                printf("Invalid input.\n\n");
-                // todo: clear input buffer
             
+            if (scanf("%d", &data) != 1) {      // checks if input is an integer
+                printf("\nInvalid input.\n");
+                while (getchar() != '\n');      // clears input buffer
+            }
+
             else
                 push(stack, size, data);
             
             printf("\n");
-            
+
             break;
             
         case 2:
@@ -101,6 +97,7 @@ int main() {
     printf("Stack Size: ");
     int size;
     scanf("%d", &size);
+    printf("\n");
 
     int stack[size];
     
