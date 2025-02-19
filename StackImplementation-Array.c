@@ -32,9 +32,11 @@ void push(int stack[], int size, int data) {
 void pop(int stack[]) {
     if (stackEmpty())
         printf("Stack is empty.\n\n");
-
-    else
+    
+    else {
+        printf("Popped %d from the stack.\n\n", stack[tos]);
         tos--;
+    }
 }
 
 void traverse(int stack[]) {
@@ -63,12 +65,17 @@ int menu(int stack[], int size) {
     
     switch(choice) {
         case 1:
-
             printf("Enter data: ");
-            scanf("%d", &data);
+
+            if (scanf("%d", &data) != 1)    // check if input is an integer
+                printf("Invalid input.\n\n");
+                // todo: clear input buffer
+            
+            else
+                push(stack, size, data);
+            
             printf("\n");
             
-            push(stack, size, data);
             break;
             
         case 2:
@@ -99,3 +106,16 @@ int main() {
     
     while (menu(stack, size));
 }
+
+
+
+
+/* 
+TRIVIA
+
+If you call scanf with the format string "%d %f %s", it will attempt to read an integer, 
+a floating-point number, and a string. If it successfully reads all three items, it will return 3.
+
+If scanf encounters an input failure (e.g., because the input is not a valid integer), 
+it will return a value less than the number of items in the format string.
+*/
