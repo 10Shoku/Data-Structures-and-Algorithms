@@ -54,8 +54,23 @@ int menu(int stack[], int size) {
     int choice;
     int data;
     
-    printf("MENU\n----\n1) Push\n2) Pop\n3) Traverse\n4) Exit\n>>> ");
-    scanf("%d", &choice);
+    while (1) {
+        printf("MENU\n----\n1) Push\n2) Pop\n3) Traverse\n4) Exit\n>>> ");
+
+        if (scanf("%d", &choice) != 1) {
+            printf("\nInvalid datatype.\n\n");
+            while (getchar() != '\n');
+        }
+
+        else if (getchar() != '\n') {
+            printf("\nInvalid input.\n\n");
+            while (getchar() != '\n');
+        }
+
+        else
+            break;
+    }
+    
     printf("\n");
     
     switch(choice) {
@@ -63,14 +78,19 @@ int menu(int stack[], int size) {
             printf("Enter data: ");
             
             if (scanf("%d", &data) != 1) {      // checks if input is an integer
-                printf("\nInvalid input.\n");
+                printf("\nInvalid datatype.\n\n");
                 while (getchar() != '\n');      // clears input buffer
             }
 
-            else
+            else if (getchar() != '\n') {       // checks if there are any extra characters. eg: 12abc
+                printf("\nInvalid input.\n\n");
+                while (getchar() != '\n');
+            }
+
+            else {
+                printf("\n");
                 push(stack, size, data);
-            
-            printf("\n");
+            }
 
             break;
             
@@ -94,13 +114,29 @@ int menu(int stack[], int size) {
 }
 
 int main() {
-    printf("Stack Size: ");
     int size;
-    scanf("%d", &size);
+
+    while (1) {
+        printf("Stack Size: ");
+
+        if (scanf("%d", &size) != 1) {
+            printf("\nInvalid datatype.\n\n");
+            while (getchar() != '\n');
+        }
+
+        else if (getchar() != '\n') {
+            printf("\nInvalid input.\n\n");
+            while (getchar() != '\n');
+        }
+
+        else
+            break;
+    }
+
     printf("\n");
 
     int stack[size];
-    
+
     while (menu(stack, size));
 }
 
