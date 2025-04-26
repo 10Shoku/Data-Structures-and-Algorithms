@@ -143,9 +143,7 @@ int main() {
 
 
 
-/* 
-TRIVIA
-
+/*
 If you call scanf with the format string "%d %f %s", it will attempt to read an integer, 
 a floating-point number, and a string. If it successfully reads all three items, it will return 3.
 
