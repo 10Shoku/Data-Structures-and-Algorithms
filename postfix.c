@@ -13,36 +13,36 @@ int isEmpty(int tos) {
     return 0;
 }
 
-void push(char *stack, int *tos, char data) {
-    stack[++(*tos)] = data;
+void push(stack *s, char data) {
+    s->stk[++s->tos] = data;
 }
 
-void pop(char *stack, int *tos) {
-    if (isEmpty(*tos)) {
+void pop(stack *s) {
+    if (isEmpty(s->tos)) {
         printf("Stack is empty\n");
         return;
     }
 
-    stack[(*tos)--];
+    s->tos--;
 }
 
-char top(char *stack, int tos) {
-    if (isEmpty(tos)) {
+char top(stack *s) {
+    if (isEmpty(s->tos)) {
         printf("Stack is empty\n");
         return 'x';
     }
 
-    return stack[tos];
+    return s->stk[s->tos];
 }
 
-void traverse (char *stack, int tos) {
-    if (isEmpty(tos)) {
+void traverse (stack *s) {
+    if (isEmpty(s->tos)) {
         printf("Stack is empty\n");
         return;
     }
 
-    for (int i = 0; i <= tos; i++)
-        printf("%c", stack[i]);
+    for (int i = 0; i <= s->tos; i++)
+        printf("%c", s->stk[i]);
 
     printf("\n");
 }
@@ -67,34 +67,34 @@ int main() {
         sc = expn[i];
 
         if (sc == '(')
-            push(optr.stk, &optr.tos, sc);
+            push(&optr, sc);
 
         else if (sc >= 'A' && sc <= 'Z')
-            push(post.stk, &post.tos, sc);
+            push(&post, sc);
 
         else if (sc == ')') {
-            while (optr.stk[optr.tos] != '(') {
-                push(post.stk, &post.tos, optr.stk[optr.tos]);
-                pop(optr.stk, &optr.tos);
+            while (top(&optr) != '(') {
+                push(&post, top(&optr));
+                pop(&optr);
             }
 
-            pop(optr.stk, &optr.tos); // remove the '('
+            pop(&optr); // remove the '('
         }
 
         else {
-            while (!isEmpty(optr.tos) && precedence(sc) <= precedence(optr.stk[optr.tos])) {
-                push(post.stk, &post.tos, optr.stk[optr.tos]);
-                pop(optr.stk, &optr.tos);
+            while (!isEmpty(optr.tos) && precedence(sc) <= precedence(top(&optr))) {
+                push(&post, top(&optr));
+                pop(&optr);
             }
 
-            push(optr.stk, &optr.tos, sc);
+            push(&optr, sc);
         }
     }
 
     while (!isEmpty(optr.tos)) {
-        push(post.stk, &post.tos, optr.stk[optr.tos]);
-        pop(optr.stk, &optr.tos);
+        push(&post, top(&optr));
+        pop(&optr);
     }
 
-    traverse(post.stk, post.tos);
+    traverse(&post);
 }
